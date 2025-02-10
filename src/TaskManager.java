@@ -166,9 +166,8 @@ public class TaskManager {
             // обновляем список подзадач и статус эпика
 
             Epic epic = epics.get(epicID);
-            ArrayList<Subtask> subtaskList = epic.getSubtaskList();
-            subtaskList.remove(subtask);
             epic.clearSubtask(subtask);
+            updateEpicStatus(epic);
         }
     }
 
