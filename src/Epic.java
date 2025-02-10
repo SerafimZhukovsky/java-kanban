@@ -3,10 +3,6 @@ public class Epic extends Task{
 
     private ArrayList<Subtask> subtaskList = new ArrayList<>();
 
-    public Epic(Integer id, String name, String description, Status status) {
-        super(id, name, description, status);
-    }
-
     public Epic(String name, String description) {
         super(name, description);
     }
@@ -20,13 +16,12 @@ public class Epic extends Task{
     }
 
     public ArrayList<Subtask> getSubtaskList() {
-        return subtaskList;
+        return new ArrayList<>(subtaskList);
     }
-
-    public void setSubtaskList(ArrayList<Subtask> subtaskList) {
-        this.subtaskList = subtaskList;
+    //метод, который удалит единичную подзадачу из хранилища subtaskList
+    public void clearSubtask(int i){
+        subtaskList.set(i, null);
     }
-
     @Override
     public String toString() {
         return "Epic{" +

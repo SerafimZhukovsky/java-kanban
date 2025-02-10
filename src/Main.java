@@ -6,13 +6,8 @@ public class Main {
 
         Task buyMilk = new Task("Купить молоко", "жирность 3,2-6");
         Task buyMilkCreated = taskManager.addTask(buyMilk);
-        buyMilk.setStatus(Status.NEW);
-        System.out.println(buyMilkCreated);
-        buyMilk.setStatus(Status.IN_PROGRESS);
-        System.out.println(buyMilkCreated);
         buyMilk.setStatus(Status.DONE);
-        System.out.println(buyMilkCreated);
-
+        System.out.println(buyMilkCreated + "\n");
 
         Epic makeLunch = new Epic("Приготовить обед", "Обед из двух блюд");
         taskManager.addEpic(makeLunch);
@@ -22,14 +17,10 @@ public class Main {
                 makeLunch.getId());
         taskManager.addSubtask(makeLunchSubtask1);
         taskManager.addSubtask(makeLunchSubtask2);
-        System.out.println(makeLunchSubtask1);
-        System.out.println(makeLunchSubtask2);
-        makeLunchSubtask1.setStatus(Status.DONE);
-        makeLunchSubtask2.setStatus(Status.DONE);
-        System.out.println(makeLunchSubtask1);
-        System.out.println(makeLunchSubtask2);
-        taskManager.updateSubtask(makeLunchSubtask2);
-        System.out.println(makeLunch);
+
+
+
+
 
     }
 }
