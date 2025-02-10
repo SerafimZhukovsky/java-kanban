@@ -19,8 +19,11 @@ public class Epic extends Task{
         return new ArrayList<>(subtaskList);
     }
     //метод, который удалит единичную подзадачу из хранилища subtaskList
-    public void clearSubtask(int i){
-        subtaskList.set(i, null);
+    public void clearSubtask(Subtask subtask) {
+        if (subtask == null) {
+            return;
+        }
+        subtaskList.remove(subtask);
     }
     @Override
     public String toString() {
