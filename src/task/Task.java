@@ -1,3 +1,7 @@
+package task;
+
+import enums.Status;
+
 import java.util.Objects;
 
 public class Task {
@@ -51,17 +55,12 @@ public class Task {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Task task = (Task) o;
-
-        if (!Objects.equals(id, task.id)) return false;
-        if (!Objects.equals(name, task.name)) return false;
-        if (!Objects.equals(description, task.description)) return false;
-        return Objects.equals(status, task.status);
-    }
+    public boolean equals(Object object) {
+            if (this == object) return true;
+            if (object == null || getClass() != object.getClass()) return false;
+            Task task = (Task) object;
+            return id == task.id;
+        }
 
     @Override
     public int hashCode() {
@@ -74,7 +73,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "task.Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
