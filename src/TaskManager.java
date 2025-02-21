@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
-    Integer getid();
 
     Task addTask(Task task);
 
@@ -26,13 +25,13 @@ public interface TaskManager {
 
     Subtask getSubtaskByID(Integer id);
 
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
-    ArrayList<Subtask> getSubtasks();
+    List<Subtask> getSubtasks();
 
-    ArrayList<Subtask> getEpicSubtasks(Integer id);
+    List<Subtask> getEpicSubtasks(Integer id);
 
     void deleteTasks();
 
@@ -45,9 +44,6 @@ public interface TaskManager {
     void deleteEpicByID(Integer id);
 
     void deleteSubtaskByID(Integer id);
-
-    // вспомогательный private метод для контроля статуса эпика при удалении или изменении подзадач
-    void updateEpicStatus(Epic epic);
 
     List<Task> getHistory();
 }

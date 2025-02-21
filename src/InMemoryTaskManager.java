@@ -4,18 +4,19 @@ import task.Subtask;
 import task.Task;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private Integer id = 1;
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    @Override
-    public Integer getid() {
+
+    private Integer getid() {
         return id++;
     }
 
@@ -213,8 +214,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // вспомогательный private метод для контроля статуса эпика при удалении или изменении подзадач
-    @Override
-    public void updateEpicStatus(Epic epic) {
+    private void updateEpicStatus(Epic epic) {
         if (epic == null) {  // Добавили проверку на null
             return;
         }
