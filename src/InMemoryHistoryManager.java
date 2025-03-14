@@ -73,7 +73,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void remove(int id) {
         if (historyMap.containsKey(id)) {
             removeNode(historyMap.get(id));
-            historyMap.remove(id);
         }
     }
 }
