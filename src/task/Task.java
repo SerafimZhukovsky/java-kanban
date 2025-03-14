@@ -10,7 +10,7 @@ public class Task {
     protected String description;
     protected Status status;
 
-    public Task( final String name, final String description, final Status status) {
+    public Task(final String name, final String description, final Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -56,11 +56,11 @@ public class Task {
 
     @Override
     public boolean equals(Object object) {
-            if (this == object) return true;
-            if (object == null || getClass() != object.getClass()) return false;
-            Task task = (Task) object;
-            return id == task.id;
-        }
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Task task = (Task) object;
+        return id == task.id;
+    }
 
     @Override
     public int hashCode() {

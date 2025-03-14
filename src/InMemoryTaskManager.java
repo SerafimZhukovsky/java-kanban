@@ -22,9 +22,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task addTask(Task task) {
-        task.setId(getid());
-        tasks.put(task.getId(), task);
-        return task;
+        if (task == null) {
+            return null;
+        }
+        Task copyTask = new Task(task.getName(), task.getDescription(), task.getStatus());
+        copyTask.setId(getid());
+        tasks.put(copyTask.getId(), copyTask);
+        return copyTask;
     }
 
     @Override
@@ -63,7 +67,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic updateEpic(Epic epic) {
         // проверяем, что данный эпик не null и он у нас был
-        if (epic == null){
+        if (epic == null) {
             return epic;
         }
         Integer epicID = epic.getId();
@@ -85,7 +89,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         Integer subtaskId = subtask.getId();
-        if ( subtaskId == null || !subtasks.containsKey(subtaskId)) {
+        if (subtaskId == null || !subtasks.containsKey(subtaskId)) {
             return subtask;
         }
         // Проверка совпадения epicId
@@ -103,7 +107,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.replace(subtaskId, subtask);
 
         // Обновление подзадачи в эпике
-            epic.addSubtask(subtask);
+        epic.addSubtask(subtask);
 
         updateEpicStatus(epic);
         return subtask;
@@ -112,11 +116,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskByID(Integer id) {
-        Task task = tasks.get(id);
-        if (task != null) {
-            historyManager.add(task);
+        if (id == null || !tasks.containsKey(id)) {
+            return null; // Если задача не найдена, возвращаем null
         }
-        return task;
+        Task task = tasks.get(id);
+        Task copy = new Task(task.getName(), task.getDescription(), task.getStatus());
+        copy.setId(task.getId());
+        historyManager.add(copy);
+        return copy;
     }
 
     @Override
@@ -189,7 +196,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpicByID(Integer id) {
-        if (!epics.containsKey(id)){
+        if (!epics.containsKey(id)) {
             return;
         }
         ArrayList<Subtask> epicSubtasks = epics.get(id).getSubtaskList();
