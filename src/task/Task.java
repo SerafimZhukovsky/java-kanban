@@ -2,8 +2,6 @@ package task;
 
 import enums.Status;
 
-import java.util.Objects;
-
 public class Task {
     protected Integer id;
     protected String name;
