@@ -3,10 +3,10 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
     private Integer id = 1;
@@ -273,6 +273,25 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
+    public Map<Integer, Task> getTasksMap() {
+        return tasks;
+    }
+
+    public Map<Integer, Epic> getEpicsMap() {
+        return epics;
+    }
+
+    public Map<Integer, Subtask> getSubtasksMap() {
+        return subtasks;
+    }
+
+    public int getNextId() {
+        return id;
+    }
+
+    public void setNextId(int newId) {
+        this.id = newId;
+    }
 }
 
 
