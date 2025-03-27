@@ -1,11 +1,11 @@
 package task;
 
 import enums.Status;
-import task.Task;
 
 public class Subtask extends Task {
 
     private Integer epicID;
+
     public Subtask(String name, String description, Status status) {
         super(name, description, status);
     }
@@ -28,6 +28,9 @@ public class Subtask extends Task {
 
     public Integer getEpicID() {
         return epicID;
+    }
 
+    public void setEpicID(Integer epicID) {
+        this.epicID = epicID;
     }
 }

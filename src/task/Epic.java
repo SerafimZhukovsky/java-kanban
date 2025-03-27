@@ -1,6 +1,7 @@
 package task;
 
 import java.util.ArrayList;
+
 public class Epic extends Task {
 
     private ArrayList<Subtask> subtaskList = new ArrayList<>();
@@ -20,6 +21,7 @@ public class Epic extends Task {
     public ArrayList<Subtask> getSubtaskList() {
         return new ArrayList<>(subtaskList);
     }
+
     //метод, который удалит единичную подзадачу из хранилища subtaskList
     public void clearSubtask(Subtask subtask) {
         if (subtask == null) {
@@ -27,6 +29,7 @@ public class Epic extends Task {
         }
         subtaskList.remove(subtask);
     }
+
     @Override
     public String toString() {
         return "task.Epic{" +
