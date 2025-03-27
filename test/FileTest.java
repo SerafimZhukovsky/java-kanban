@@ -22,9 +22,6 @@ public class FileTest {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
         addTestTasks(manager);
 
-        // Сохраняем в файл
-        manager.save();
-
         // Загружаем из файла
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(file);
 
