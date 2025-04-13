@@ -1,12 +1,16 @@
 package task;
 
 import enums.Status;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Task {
     protected Integer id;
     protected String name;
     protected String description;
     protected Status status;
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
     public Task(final String name, final String description, final Status status) {
         this.name = name;
@@ -18,6 +22,29 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
+            return null;
+        }
+        return startTime.plus(duration);
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public Integer getId() {
