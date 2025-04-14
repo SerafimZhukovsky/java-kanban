@@ -13,7 +13,7 @@ public class Epic extends Task {
         super(name, description);
     }
 
-    public void updateTime() {
+    private void updateTime() {
         if (subtaskList.isEmpty()) {
             this.startTime = null;
             this.duration = null;
