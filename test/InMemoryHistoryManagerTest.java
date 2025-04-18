@@ -108,6 +108,27 @@ class InMemoryHistoryManagerTest {
         assertEquals("Task 1", savedTask.getName(), "История содержит обновлённую задачу");
         assertEquals("Description 1", savedTask.getDescription(), "История содержит обновлённую задачу");
     }
+    @Test
+    void shouldRemoveTaskFromHistoryMiddle() {
+        HistoryManager manager = Managers.getDefaultHistory();
+        Task task1 = new Task("Task1", "Desc"); task1.setId(1);
+        Task task2 = new Task("Task2", "Desc"); task2.setId(2);
+
+        manager.add(task1);
+        manager.add(task2);
+        manager.remove(1);
+
+        assertEquals(List.of(task2), manager.getHistory());
+    }
+
+    @Test
+    void shouldNotDuplicateTasksInHistory() {
+        HistoryManager manager = Managers.getDefaultHistory();
+        Task task = new Task("Task", "Desc"); task.setId(1);
+        manager.add(task);
+        manager.add(task);
+        assertEquals(1, manager.getHistory().size());
+    }
 }
 
 

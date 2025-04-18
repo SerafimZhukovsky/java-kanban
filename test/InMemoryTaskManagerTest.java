@@ -5,6 +5,8 @@ import task.Task;
 import task.Subtask;
 import task.Epic;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -158,4 +160,118 @@ class InMemoryTaskManagerTest {
         List<Task> tasks = taskManager.getTasks();
         assertTrue(tasks.isEmpty(), "Список задач не пуст после удаления");
     }
+
+    @Test
+    public void testGetPrioritizedTasks() {
+        // Создаем задачи
+        Task task1 = new Task("Task 1", "Description");
+        task1.setStartTime(LocalDateTime.of(2025, 1, 1, 12, 0));
+        task1.setDuration(Duration.ofMinutes(30));
+
+        Task task2 = new Task("Task 2", "Description");
+        task2.setStartTime(LocalDateTime.of(2025, 1, 1, 10, 0));
+        task2.setDuration(Duration.ofHours(1));
+
+        Task taskWithoutTime = new Task("Task 3", "Description");
+
+        // Добавляем задачи в менеджер
+        Task addedTask1 = taskManager.addTask(task1);
+        Task addedTask2 = taskManager.addTask(task2);
+        taskManager.addTask(taskWithoutTime);
+
+        // Получаем приоритизированный список
+        List<Task> prioritized = taskManager.getPrioritizedTasks();
+
+        // Проверяем размер списка
+        assertEquals(2, prioritized.size(), "Должны быть только задачи с указанным временем");
+
+        // Проверяем порядок задач (используем добавленные задачи с ID)
+        assertEquals(addedTask2, prioritized.get(0), "Первой должна быть задача с ранним startTime");
+        assertEquals(addedTask1, prioritized.get(1), "Второй — с поздним startTime");
+    }
+
+    @Test
+    public void testUpdateTaskInPrioritizedList() {
+
+        // Создаем и добавляем задачу
+        Task task = new Task("Original Task", "Description");
+        task.setStartTime(LocalDateTime.of(2025, 1, 1, 10, 0));
+        task.setDuration(Duration.ofHours(1));
+        Task addedTask = taskManager.addTask(task);
+
+        // Создаем обновленную версию задачи
+        Task updatedTask = new Task("Updated Task", "New Description");
+        updatedTask.setId(addedTask.getId()); // Сохраняем тот же ID
+        updatedTask.setStartTime(LocalDateTime.of(2025, 1, 1, 9, 0)); // Новое время
+        updatedTask.setDuration(Duration.ofMinutes(30));
+
+        // Обновляем задачу
+        taskManager.updateTask(updatedTask);
+
+        // Проверяем обновление
+        List<Task> prioritized = taskManager.getPrioritizedTasks();
+
+        // Проверяем что задача первая в списке (так как время теперь самое раннее)
+        assertEquals(updatedTask, prioritized.get(0));
+        assertEquals(LocalDateTime.of(2025, 1, 1, 9, 0),
+                prioritized.get(0).getStartTime());
+
+        // Дополнительная проверка - старая версия больше не в списке
+        assertFalse(prioritized.contains(task));
+    }
+
+    @Test
+    public void testGetEpicSubtasksWithStream() {
+        Epic epic = new Epic("Epic", "Description");
+        taskManager.addEpic(epic);
+
+        Subtask subtask1 = new Subtask("Subtask 1", "Desc", epic.getId());
+        Subtask subtask2 = new Subtask("Subtask 2", "Desc", epic.getId());
+        taskManager.addSubtask(subtask1);
+        taskManager.addSubtask(subtask2);
+
+        List<Subtask> subtasks = taskManager.getEpicSubtasks(epic.getId());
+        assertEquals(2, subtasks.size(), "Должны вернуться все подзадачи эпика");
+    }
+
+    @Test
+    void epicShouldBeNewWhenNoSubtasks() {
+        Epic epic = taskManager.addEpic(new Epic("Epic", "Description"));
+        assertEquals(Status.NEW, epic.getStatus());
+    }
+
+    @Test
+    void epicShouldBeNewWhenAllSubtasksNew() {
+        Epic epic = taskManager.addEpic(new Epic("Epic", "Description"));
+        Subtask subtask = new Subtask("Subtask", "Desc", epic.getId());
+        subtask.setStatus(Status.NEW); // Устанавливаем статус после создания
+        taskManager.addSubtask(subtask);
+        assertEquals(Status.NEW, epic.getStatus());
+    }
+
+    @Test
+    void epicShouldBeDoneWhenAllSubtasksDone() {
+        Epic epic = taskManager.addEpic(new Epic("Epic", "Description"));
+        Subtask subtask = new Subtask("Subtask", "Desc", epic.getId());
+        subtask.setStatus(Status.DONE); // Устанавливаем статус
+        taskManager.addSubtask(subtask);
+        assertEquals(Status.DONE, epic.getStatus());
+    }
+
+    @Test
+    void epicShouldBeInProgressWhenMixedStatuses() {
+        Epic epic = taskManager.addEpic(new Epic("Epic", "Description"));
+
+        Subtask subtask1 = new Subtask("Subtask1", "Desc", epic.getId());
+        subtask1.setStatus(Status.NEW);
+
+        Subtask subtask2 = new Subtask("Subtask2", "Desc", epic.getId());
+        subtask2.setStatus(Status.DONE);
+
+        taskManager.addSubtask(subtask1);
+        taskManager.addSubtask(subtask2);
+
+        assertEquals(Status.IN_PROGRESS, epic.getStatus());
+    }
 }
+
