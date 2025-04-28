@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 public class SubtasksHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
@@ -76,6 +77,10 @@ public class SubtasksHandler extends BaseHttpHandler {
                 sendHasInteractions(exchange); // 406 если пересекается
                 return;
             }
+            String response = gson.toJson(Map.of(
+                    "message", "Подзадача создана",
+                    "id", createdSubtask.getId()
+            ));
             sendText(exchange, "Подзадача создана", 201);
         } else {
             // Обновление существующей

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 public class EpicsHandler extends BaseHttpHandler {
     private final TaskManager taskManager;
@@ -86,6 +87,10 @@ public class EpicsHandler extends BaseHttpHandler {
         if (epic.getId() == null) {
             // Создание нового эпика
             Epic createdEpic = taskManager.addEpic(epic);
+            String response = gson.toJson(Map.of(
+                    "message", "Эпик создан",
+                    "id", createdEpic.getId()
+            ));
             sendText(exchange, "Эпик создан", 201);
         } else {
             // Обновление существующего
