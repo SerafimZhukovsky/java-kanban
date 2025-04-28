@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import enums.Status;
-import task.Task;
-import task.Subtask;
-import task.Epic;
+import tasks.Task;
+import tasks.Subtask;
+import tasks.Epic;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-import task.Task;
+import tasks.Task;
 
 public class Node {
     Task task;

@@ -1,4 +1,4 @@
-package task;
+package tasks;
 
 import enums.Status;
 import java.time.Duration;
