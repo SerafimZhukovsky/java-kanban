@@ -1,5 +1,5 @@
 import org.junit.jupiter.api.Test;
-import task.Subtask;
+import tasks.Subtask;
 
 import static org.junit.jupiter.api.Assertions.*;
 class SubtaskTest {
